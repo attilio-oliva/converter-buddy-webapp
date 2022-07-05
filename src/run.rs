@@ -150,7 +150,7 @@ fn app(services: &ServiceProps) -> Html {
             //<a class="navbar-item" href="/">
             //    <Info/>
             //</a>
-            <a class="navbar-item" href="https://github.com/attilio-oliva/converter-buddy">
+            <a class="navbar-item" href="https://github.com/attilio-oliva/converter-buddy-webapp">
                 <Github/>
             </a>
             </div>
