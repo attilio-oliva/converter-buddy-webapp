@@ -1,0 +1,41 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+    - uses: actions-rs/cargo@v1
+      with:
+        command: install
+        args: --force trunk
+
+    - run: |
+        rustup target add wasm32-unknown-unknown
+    - run: |
+        trunk build
+      env:
+        TRUNK_BUILD_PUBLIC_URL: ./
+    - uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/master' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
