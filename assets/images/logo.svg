@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="315.91986"
+   height="39.537567"
+   viewBox="0 0 315.91986 39.537567"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="2.6208333"
+     inkscape:cx="210.81081"
+     inkscape:cy="-11.828299"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="false"
+     inkscape:object-paths="false"
+     inkscape:snap-midpoints="false"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-nodes="true"
+     inkscape:object-nodes="true"
+     inkscape:showpageshadow="0"
+     inkscape:deskcolor="#505050" />
+  <defs
+     id="defs2">
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask5617">
+      <path
+         id="path5619"
+         mask="none"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:2"
+         d="M 10.112113,-3.4809672 H 48.659677 V 4.5192214 L 48.653039,30.20495 39.650012,30.056599 39.196013,4.5192214 h -29.0839 z"
+         sodipodi:nodetypes="cccccccc" />
+    </mask>
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask5617-7">
+      <path
+         id="path5619-0"
+         mask="none"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:2"
+         d="M 10.112113,-3.4809672 H 48.659677 V 4.5192214 L 48.653039,30.20495 39.650012,30.056599 39.196013,4.5192214 h -29.0839 z"
+         sodipodi:nodetypes="cccccccc" />
+    </mask>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-6.2325888,-0.33259432)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:32px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+       x="59.881027"
+       y="32.61372"
+       id="text3267"><tspan
+         sodipodi:role="line"
+         id="tspan3265"
+         x="59.881027"
+         y="32.61372"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;font-family:'URW Gothic';-inkscape-font-specification:'URW Gothic';fill:#f2f2f2">Converter Buddy</tspan></text>
+  </g>
+</svg>
