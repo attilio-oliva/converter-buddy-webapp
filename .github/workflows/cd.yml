@@ -4,6 +4,14 @@ on:
   push:
     branches:
     - main
+  pull_request:
+    types:
+    - opened
+    - edited
+    - synchronize
+    - reopened
+    branches:
+    - main
 
 jobs:
   deploy:
@@ -27,15 +35,22 @@ jobs:
       with:
         command: install
         args: --force trunk
-
     - run: |
         rustup target add wasm32-unknown-unknown
     - run: |
-        trunk build
+        trunk build --release
       env:
         TRUNK_BUILD_PUBLIC_URL: ./
-    - uses: peaceiris/actions-gh-pages@v3
-      if: ${{ github.ref == 'refs/heads/main' }}
+    # Put the build in a branch for testing on pull requests
+    - if: github.event_name == 'pull_request'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages-pr-test
+        publish_dir: ./dist
+    # Put the build gh pages public branch on main push/pr merge
+    - if: github.event_name == 'push'
+      uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
