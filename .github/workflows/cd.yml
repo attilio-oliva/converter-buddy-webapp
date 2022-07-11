@@ -33,10 +33,8 @@ jobs:
       with:
         command: install
         args: --force trunk
-    # faster wasm target installer rather than rustup
-    - uses: jetli/wasm-pack-action@v0.3.0
-      with:
-        version: 'latest'
+    - run: |
+        rustup target add wasm32-unknown-unknown
     - run: |
         trunk build --release
       env:
