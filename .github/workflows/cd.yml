@@ -38,8 +38,7 @@ jobs:
     - run: |
         rustup target add wasm32-unknown-unknown
     - run: |
-        trunk build
-      args: --release
+        trunk build --release
       env:
         TRUNK_BUILD_PUBLIC_URL: ./
     # Put the build in a branch for testing on pull requests
