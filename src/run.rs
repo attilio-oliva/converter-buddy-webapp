@@ -19,7 +19,7 @@ fn app(services: &ServiceProps) -> Html {
         r#"
         html, body {
                 font-size: large;
-                font-family: 'myFont', sans-serif;
+                font-family: 'Cantarell', sans-serif;
                 padding: 0;
                 margin: 0;
 
