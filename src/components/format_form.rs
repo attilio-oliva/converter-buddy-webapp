@@ -125,7 +125,7 @@ impl<'a> Component for FormatFormComponent {
     fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
                 <div>
-                <h2 class="box-header"> { "Desired format" } </h2>
+                <h2 class="content-header"> { "Desired format" } </h2>
                 <div class={"content-inner-box"}>
                         //<label>{"Format"}</label>
                         <select onchange={ctx.link().callback(|e: Event| {

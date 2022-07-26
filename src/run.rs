@@ -41,10 +41,18 @@ fn app(services: &ServiceProps) -> Html {
             text-decoration: none;
             color: ${font_color}
         }
+
+        .logo{
+            height: 100%;
+            width: 100%;
+            object-fit: contain
+        }
         
         .navbar-left {
             display: flex;
             grid-column: 1/2;
+
+            height: 30px;
             padding-left: 10px
         }
 
@@ -52,6 +60,7 @@ fn app(services: &ServiceProps) -> Html {
             display: flex;
             grid-column: 3/4;
 
+            height: 30px;
             margin-right: 10px;
             margin-left: auto;
             padding-left: 10px
@@ -60,6 +69,8 @@ fn app(services: &ServiceProps) -> Html {
         .navbar-item {
             margin-left: 16px;
             margin-right: 16px;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
 
         .content-container {
@@ -67,15 +78,14 @@ fn app(services: &ServiceProps) -> Html {
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            padding: calc(2%, 24px);
             text-align: center;
         }
 
-        .content-box {
-            padding: calc(1% + 16px);
+        .content {
+            padding: calc(1% + 8px);
         }
 
-        .box-header {
+        .content-header {
             margin-bottom: 0px;
         }
 
@@ -142,7 +152,7 @@ fn app(services: &ServiceProps) -> Html {
         <Global css={global_style} />
         <header>
             <div class="navbar-left">
-            <a href="/">
+            <a href="/" class="logo">
                 <img src="assets/images/logo.svg" alt="Converter Buddy" />
             </a>
             </div>
@@ -156,10 +166,10 @@ fn app(services: &ServiceProps) -> Html {
             </div>
         </header>
         <div class="content-container">
-                <div class="content-box">
+                <div class="content">
                     <InputFormComponent></InputFormComponent>
                 </div>
-                <div class="content-box">
+                <div class="content">
                     <FormatFormComponent converter={services.converter.clone()}></FormatFormComponent>
                 </div>
                 //<PreviewComponent></PreviewComponent>
