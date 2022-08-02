@@ -1,9 +1,7 @@
 use std::sync::Arc;
 use stylist::css;
 
-use crate::components::{
-    DescriptionPopup, FormatFormComponent, InputFormComponent, ServiceProps,
-};
+use crate::components::{DescriptionPopup, FormatFormComponent, InputFormComponent, ServiceProps};
 use crate::services::conversions::ConversionService;
 use crate::services::conversions::DynamicService;
 use crate::theme::*;
