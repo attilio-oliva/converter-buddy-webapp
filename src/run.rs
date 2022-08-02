@@ -18,7 +18,7 @@ fn app(services: &ServiceProps) -> Html {
         r#"
         html, body {
                 font-size: large;
-                font-family: 'Cantarell', sans-serif;
+                font-family: 'Cantarell', -apple-system, BlinkMacSystemFont, "Helvetica", sans-serif;
                 padding: 0;
                 margin: 0;
 
