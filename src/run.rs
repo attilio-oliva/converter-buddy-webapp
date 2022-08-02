@@ -1,15 +1,16 @@
 use std::sync::Arc;
 use stylist::css;
 
-use crate::components::InputFormComponent;
-use crate::components::{FormatFormComponent, ServiceProps};
+use crate::components::{
+    DescriptionPopup, FormatFormComponent, InputFormComponent, ServiceProps,
+};
 use crate::services::conversions::ConversionService;
 use crate::services::conversions::DynamicService;
 use crate::theme::*;
 
 use stylist::yew::{styled_component, Global};
 use yew::prelude::*;
-use yew_feather::github::Github;
+use yew_feather::{github::Github, info::Info};
 
 #[function_component(App)]
 fn app(services: &ServiceProps) -> Html {
@@ -42,6 +43,11 @@ fn app(services: &ServiceProps) -> Html {
             color: ${font_color}
         }
 
+        p a {
+            text-decoration: underline;
+            color: white;
+        }
+
         .logo{
             height: 100%;
             width: 100%;
@@ -53,7 +59,7 @@ fn app(services: &ServiceProps) -> Html {
             grid-column: 1/2;
 
             height: 30px;
-            padding-left: 10px
+            padding-left: 16px
         }
 
         .navbar-right {
@@ -61,14 +67,13 @@ fn app(services: &ServiceProps) -> Html {
             grid-column: 3/4;
 
             height: 30px;
-            margin-right: 10px;
             margin-left: auto;
             padding-left: 10px
         }
 
         .navbar-item {
-            margin-left: 16px;
-            margin-right: 16px;
+            margin-left: 8px;
+            margin-right: 8px;
             margin-top: 3px;
             margin-bottom: 3px;
         }
@@ -140,6 +145,108 @@ fn app(services: &ServiceProps) -> Html {
         select:focus {
           outline: none;
         }
+        li {
+            list-style: disc outside none;
+            display: list-item;
+        }
+
+        /* Custom Modal
+        * =============================== */
+        .modal {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        text-align: left;
+        background: rgba(0,0,0, .9);
+        transition: opacity .25s ease;
+        }
+
+        .modal__bg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        cursor: pointer;
+        }
+
+        .modal-state {
+        display: none;
+        }
+
+        .modal-state:checked + .modal {
+        opacity: 1;
+        visibility: visible;
+        }
+
+        .modal-state:checked + .modal .modal__inner {
+        top: 0;
+        }
+
+        .modal__inner {
+        transition: top .25s ease;
+        position: absolute;
+        top: -20%;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 35%;
+        margin: auto;
+        overflow: auto;
+        background: ${primary};
+        border-radius: 5px;
+        padding: 1em 2em;
+        height: 40%;
+        }
+
+        .modal__close {
+        position: absolute;
+        right: 1em;
+        top: 1em;
+        width: 1.1em;
+        height: 1.1em;
+        cursor: pointer;
+        }
+
+        .modal__close:after,
+        .modal__close:before {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 1.5em;
+        background: #ccc;
+        display: block;
+        transform: rotate(45deg);
+        left: 50%;
+        margin: -3px 0 0 -1px;
+        top: 0;
+        }
+
+        .modal__close:hover:after,
+        .modal__close:hover:before {
+        background: #aaa;
+        }
+
+        .modal__close:before {
+        transform: rotate(-45deg);
+        }
+
+        .open-popup-btn {
+            cursor:pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .modal__inner {
+                width: 90%;
+                height: 90%;
+                box-sizing: border-box;
+            }
+        }
+        /* =============================== */
 
         "#,
         bg = theme.background_color.clone(),
@@ -157,9 +264,9 @@ fn app(services: &ServiceProps) -> Html {
             </a>
             </div>
             <div class="navbar-right">
-            //<a class="navbar-item" href="/">
-            //    <Info/>
-            //</a>
+            <label for="compatibility-popup" class="navbar-item open-popup-btn" href="/">
+                <Info/>
+            </label>
             <a class="navbar-item" href="https://github.com/attilio-oliva/converter-buddy-webapp">
                 <Github/>
             </a>
@@ -174,6 +281,8 @@ fn app(services: &ServiceProps) -> Html {
                 </div>
                 //<PreviewComponent></PreviewComponent>
         </div>
+
+        <DescriptionPopup></DescriptionPopup>
         </>
     }
 }

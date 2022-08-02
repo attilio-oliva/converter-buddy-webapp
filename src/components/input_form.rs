@@ -55,7 +55,7 @@ impl Component for InputFormComponent {
             ondragover={ctx.link().callback(move |event: DragEvent| {
                 Msg::DragOver(event)
             })}>
-                <h2 class="content-header">{ "Select files to convert or drop them" }</h2>
+                <h2 class="content-header">{ "Select or drop files to convert" }</h2>
                 <div class="content-inner-box">
                 if self.files.is_empty() {
                     <p>{ "No file selected" }</p>
