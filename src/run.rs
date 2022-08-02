@@ -16,14 +16,32 @@ fn app(services: &ServiceProps) -> Html {
 
     let global_style = css!(
         r#"
-        html, body {
+        html {
                 font-size: large;
-                font-family: 'Cantarell', -apple-system, BlinkMacSystemFont, "Helvetica", sans-serif;
-                padding: 0;
-                margin: 0;
+                font-family:  "Helvetica", -apple-system, BlinkMacSystemFont, sans-serif;
 
                 background-color: ${bg};
                 color: ${font_color};
+        }
+        
+        @supports (font-variation-settings: normal) {
+          html {
+            font-family: "Inter var", sans-serif;
+          }
+          h1, h2, h3, h4 {
+            font-family: "Cantarell", sans-serif;
+            font-weight: 800;
+            font-variation-settings: "wght" 800;
+          }
+
+          h2 {
+            font-size: 28px;
+          }
+        }
+
+        body{
+            padding: 0;
+            margin: 0;
         }
 
         header {
@@ -192,13 +210,13 @@ fn app(services: &ServiceProps) -> Html {
         right: 0;
         bottom: 0;
         left: 0;
-        width: 35%;
+        width: 40%;
         margin: auto;
         overflow: auto;
         background: ${primary};
         border-radius: 5px;
         padding: 1em 2em;
-        height: 40%;
+        height: 50%;
         }
 
         .modal__close {
