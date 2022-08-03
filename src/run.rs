@@ -123,12 +123,13 @@ fn app(services: &ServiceProps) -> Html {
         input {
             color: ${font_color};
             background-color: ${bg};
-            border: 1px solid ${primary};
+            border: 2px solid ${primary};
             border-radius: 16px;
             transition-duration: 0.4s;
             padding: 5px;
             padding-left: 20px;
             padding-right: 20px;
+            font-size: 16px;
         }
           
         input:hover {
@@ -151,6 +152,7 @@ fn app(services: &ServiceProps) -> Html {
             border-radius: 3px;
             /*box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);*/
             cursor: pointer;
+            margin: 16px;
         }
         /* <option> colors */
         option {
@@ -260,6 +262,10 @@ fn app(services: &ServiceProps) -> Html {
                 width: 90%;
                 height: 90%;
                 box-sizing: border-box;
+            }
+
+            .navbar-left {
+                padding-left: 6px;
             }
         }
         /* =============================== */
