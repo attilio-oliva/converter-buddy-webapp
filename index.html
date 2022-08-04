@@ -1,17 +1,30 @@
 <!DOCTYPE html><html lang="en"><head>
-        <meta charset="utf-8">
+        <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0">
         
         <style>
-            
             @font-face {
-                font-family: 'myFont';
-                src: url('assets/fonts/Cantarell-VF.otf');
+                font-family: 'Cantarell';
+                font-display: swap;
+                font-style: normal;
+                font-weight: 100 900;
+                src:
+                    local('Cantarell'),
+                    url('assets/fonts/Cantarell-VF.otf') format("opentype"),
+                    url('assets/fonts/Cantarell-VF.woff2') format("woff2");
+            }
+            @font-face {
+                font-family: "Inter var";
+                font-weight: 100 900;
+                font-display: swap;
+                font-style: normal;
+                font-named-instance: "Regular";
+                src: url("assets/fonts/Inter.var.woff2") format("woff2");
             }
           </style>
     
-<link rel="preload" href="./converter_buddy_webui-c0b9ab865185e717_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="./converter_buddy_webui-c0b9ab865185e717.js"></head>
+<link rel="preload" href="./converter_buddy_webui-2f4dd272919577ca_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="./converter_buddy_webui-2f4dd272919577ca.js"></head>
     <body>
 
     
-<script type="module">import init from './converter_buddy_webui-c0b9ab865185e717.js';init('./converter_buddy_webui-c0b9ab865185e717_bg.wasm');</script></body></html>
+<script type="module">import init from './converter_buddy_webui-2f4dd272919577ca.js';init('./converter_buddy_webui-2f4dd272919577ca_bg.wasm');</script></body></html>
