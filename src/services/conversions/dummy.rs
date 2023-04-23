@@ -1,4 +1,4 @@
-use converter_buddy::format::Format;
+use converter_buddy::{format::Format, config::Config};
 
 use super::{traits::ConversionError, ConversionService};
 
@@ -11,7 +11,7 @@ impl ConversionService for DummyConversion {
         _input: &Vec<u8>,
         _output: &mut Vec<u8>,
         _source_format: Format,
-        _target_format: Format,
+        _config: Config
     ) -> Result<(), ConversionError> {
         Err(ConversionError::Unsupported)
     }

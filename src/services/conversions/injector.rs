@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use converter_buddy::format::Format;
+use converter_buddy::{format::Format, config::Config};
 use runtime_injector::{define_module, interface, Injector, IntoSingleton, Svc};
 
 use crate::services::conversions::{
@@ -23,10 +23,10 @@ impl ConversionServiceManager {
         input: &Vec<u8>,
         output: &mut Vec<u8>,
         source_format: Format,
-        target_format: Format,
+        config: Config
     ) -> Result<(), ConversionError> {
         self.data_service
-            .process(input, output, source_format, target_format)
+            .process(input, output, source_format, config)
     }
 }
 

@@ -1,5 +1,8 @@
-use converter_buddy::converter_info;
+use converter_buddy::{converter::Converter, format::Format};
+use strum::IntoEnumIterator;
 use yew::prelude::*;
+
+use crate::components::format_form::conv_supported_formats;
 
 pub struct DescriptionPopup;
 
@@ -62,15 +65,19 @@ impl DescriptionPopup {
             <>
             <ul>
                 {
-                    converter_info::SUPPORTED_FORMATS.map(|supported_format| {
-                        let format_info = converter_info::from_format(supported_format);
-                        html! {
+                    Format::iter().map(|supported_format| {
+                        let converter = Converter::try_from(supported_format);
+                        match converter {
+                            Ok(c) => html! {
                             <li>
                             {
-                                format!("{} → {:?}", supported_format, format_info.supported_formats())
+                                format!("{} → {:?}", supported_format, conv_supported_formats(c))
                             }
                             </li>
+                        },
+                            Err(_) => html!{<></>},
                         }
+
                     }).into_iter().collect::<Html>()
                 }
             </ul>

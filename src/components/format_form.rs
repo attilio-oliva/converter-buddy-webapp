@@ -3,11 +3,15 @@ use std::path::PathBuf;
 use std::rc::Rc;
 use std::str::FromStr;
 
-use converter_buddy::converter_info;
-use converter_buddy::format::{self, Format};
+use converter_buddy::config::{Config, SizeSetting, JpegConfigBuilder, ImageConfigBuilder, PngConfigBuilder, BmpConfigBuilder, TiffConfigBuilder, GifConfigBuilder, WebPConfigBuilder, ImageConfig};
+use converter_buddy::converter::{Converter, ConverterInfo};
+
+use converter_buddy::format::Format;
 use gloo_console::log;
 use gloo_file::callbacks::FileReader;
 use itertools::Itertools;
+
+use strum::IntoEnumIterator;
 use web_sys::{Event, HtmlInputElement};
 use yew::html::TargetCast;
 use yew::{html, Component, Context, Html, Properties};
@@ -19,6 +23,7 @@ use crate::services::conversions::{injector, DynamicService};
 pub enum Msg {
     TargetFormat(Option<Format>),
     UpdateFileList(Rc<FileList>),
+    Config(Option<Config>),
     SubmitConversion,
     LoadFile(String, Vec<u8>),
 }
@@ -31,6 +36,7 @@ pub struct ServiceProps {
 pub struct FormatFormComponent {
     source_format: Option<Format>,
     target_format: Option<Format>,
+    export_config: Option<Config>,
     readers: HashMap<String, FileReader>,
     files: Rc<FileList>,
     #[allow(dead_code)]
@@ -40,13 +46,33 @@ pub struct FormatFormComponent {
 impl FormatFormComponent {
     pub fn guess_source_format(file_name: String) -> Option<Format> {
         let ext = file_name.split('.').last();
-        ext.and_then(format::from_extension)
+        ext.and_then(format_from_extension)
     }
     pub fn supported_formats(&self) -> Vec<Format> {
         match self.source_format {
-            Some(source_format) => converter_info::from_format(source_format).supported_formats(),
+            Some(source_format) => {
+                conv_supported_formats(Converter::try_from(source_format).unwrap())
+            }
             None => vec![],
         }
+    }
+}
+
+//TODO: This should be removed once fixed on the main library
+pub fn format_from_extension(ext: &str) -> Option<Format> {
+    Format::iter().find(|f| f.info().extensions.contains(&ext))
+}
+
+pub fn conv_supported_formats(converter: Converter) -> Vec<Format> {
+    match converter {
+        Converter::Jpeg(c) => c.supported_formats(),
+        Converter::Png(c) => c.supported_formats(),
+        Converter::Gif(c) => c.supported_formats(),
+        Converter::Tiff(c) => c.supported_formats(),
+        Converter::Bmp(c) => c.supported_formats(),
+        Converter::WebP(c) => c.supported_formats(),
+        Converter::Svg(c) => c.supported_formats(),
+        _ => todo!(),
     }
 }
 
@@ -61,6 +87,7 @@ impl<'a> Component for FormatFormComponent {
         Self {
             source_format: None,
             target_format: None,
+            export_config: None,
             readers: HashMap::default(),
             files: dispatch.get(),
             dispatch,
@@ -106,8 +133,8 @@ impl<'a> Component for FormatFormComponent {
                 true
             }
             Msg::LoadFile(file_name, data) => {
-                let target_format = self.target_format.expect("Target format is not found");
-
+                let target_format = self.target_format.expect("Target format not found");
+                let config = self.export_config.get_or_insert(target_format.try_into().expect("Target format cannot be converted"));
                 convert_and_download(
                     ctx.props()
                         .converter
@@ -115,14 +142,21 @@ impl<'a> Component for FormatFormComponent {
                         .unwrap_or(&DynamicService(injector::get_dummy_service())),
                     &file_name,
                     &data,
-                    &target_format,
+                    &config,
                 );
                 self.readers.remove(&file_name);
                 true
             }
+            Msg::Config(c) => {
+                self.export_config = c;
+                true
+            },
         }
     }
     fn view(&self, ctx: &Context<Self>) -> Html {
+        if self.source_format.is_none() {
+            return html!(<></>);
+        }
         html! {
                 <div>
                 <h2 class="content-header"> { "Desired format" } </h2>
@@ -147,6 +181,13 @@ impl<'a> Component for FormatFormComponent {
                     <input type="button" onclick={ctx.link().callback(|_| Msg::SubmitConversion)} value="Convert"/>
                 </div>
 
+                <h2 class="content-header"> { "Export configuration" } </h2>
+                <div class={"content-inner-box"}>
+                        {
+                                FormatFormComponent::view_config_form(ctx, self.target_format)
+                        }
+                </div>
+
             </div>
         }
     }
@@ -156,8 +197,11 @@ impl FormatFormComponent {
     pub fn view_list(source_format: Option<Format>) -> Html {
         match source_format {
             Some(format) => {
-                let converter = converter_info::from_format(format);
-                let formats = converter.supported_formats();
+                let Ok(converter) = Converter::try_from(format) else {
+                    return html! {<></>};
+                };
+
+                let formats = conv_supported_formats(converter);
                 let categorized_formats = FormatFormComponent::format_map(&formats);
                 // This sort will cost memory and time, a code rework is needed to avoid that, if possible
                 // It is used because HashMap does not garantee any order on iteration, causing the list to randomly change items' order
@@ -203,29 +247,74 @@ impl FormatFormComponent {
             String::from("Other")
         }
     }
+
+    pub fn view_config_form(ctx: &Context<Self>, target_format: Option<Format>) -> Html {
+        let Some(selected_target_format) = target_format else {
+            return html! {<></>};
+        };
+
+        match selected_target_format {
+            Format::Png
+            | Format::Jpeg
+            | Format::Gif
+            | Format::WebP
+            | Format::Tiff
+            | Format::Bmp
+            | Format::Avif => Self::view_image_config_form(ctx, selected_target_format.try_into().unwrap()),
+
+            _ => html! {<></>},
+        }
+    }
+
+    fn view_image_config_form(ctx: &Context<Self>, config: Config) -> Html {
+        html! {<>
+            <input onchange={{ctx.link().callback(move |e: Event| {
+                let target: HtmlInputElement = e.target_unchecked_into();
+                let size = target.value();
+                let size = match size.parse() {
+                    Ok(s) => Some(SizeSetting{width:s,height:s}),
+                    Err(_) => None,
+                };
+                let mut image_setting = ImageConfig::default();
+                image_setting.size = size;
+                let config = match config.clone() {
+                    Config::Jpeg(c) => {let mut a = c.clone(); a.base = image_setting; a.into()}
+                    Config::Png(c) => {let mut a = c.clone(); a.base = image_setting; a.into()}
+                    Config::Bmp(c) => {let mut a = c.clone(); a.base = image_setting; a.into()}
+                    Config::Tiff(c) => {let mut a = c.clone(); a.base = image_setting; a.into()}
+                    Config::Gif(c) => {let mut a = c.clone(); a.base = image_setting; a.into()}
+                    Config::WebP(c) => {let mut a = c.clone(); a.base = image_setting; a.into()}
+                    non_img_config => non_img_config
+                };
+                Msg::Config(Some(config))
+            })}}/>
+            </>
+        }
+    }
 }
 
 fn convert_and_download(
     service: &DynamicService,
     file_name: &str,
     data: &Vec<u8>,
-    target_format: &Format,
+    config: &Config,
 ) {
     let mut output = Vec::<u8>::new();
     let source_path = PathBuf::from(file_name.to_string());
     let source_ext = source_path.extension().unwrap().to_str().unwrap();
 
+    let target_format : Format = config.clone().into();
     let target_format_ext = target_format.info().preferred_extension;
     let target_path = PathBuf::from(file_name.to_string()).with_extension(target_format_ext);
     let target_file_name = target_path.as_os_str().to_str().unwrap();
 
-    format::from_extension(source_ext)
+    format_from_extension(source_ext)
         .map(|source_format| {
             //let converter = converter_info::from_format(format);
             //converter.process(data, &mut output, *target_format)
             service
                 .0
-                .process(data, &mut output, source_format, *target_format)
+                .process(data, &mut output, source_format, config.clone())
         })
         .unwrap()
         .expect("Conversion failed");

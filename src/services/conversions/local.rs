@@ -1,4 +1,7 @@
-use converter_buddy::{converter, format::Format};
+use converter_buddy::{
+    converter::{self, Converter},
+    format::Format, config::Config,
+};
 
 use super::{traits::ConversionError, ConversionService};
 
@@ -11,11 +14,15 @@ impl ConversionService for LocalConversion {
         input: &Vec<u8>,
         output: &mut Vec<u8>,
         source_format: Format,
-        target_format: Format,
+        config: Config
     ) -> Result<(), ConversionError> {
-        let converter = converter::from_format(source_format);
+        let converter =
+            Converter::try_from(source_format).map_err(|_| ConversionError::Unsupported)?;
+        let config = config
+            .try_into()
+            .map_err(|_| ConversionError::Unsupported)?;
         converter
-            .process(input, output, target_format)
+            .process(input, output, config)
             .map_err(|e| match e {
                 converter::ConversionError::UnsupportedOperation => ConversionError::Unsupported,
                 _ => ConversionError::Unexpected,

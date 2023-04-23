@@ -1,6 +1,6 @@
 use std::{ptr, sync::Arc};
 
-use converter_buddy::format::Format;
+use converter_buddy::{format::Format, config::Config};
 
 #[derive(Debug)]
 pub enum ConversionError {
@@ -14,7 +14,7 @@ pub trait ConversionService: Send + Sync {
         input: &Vec<u8>,
         output: &mut Vec<u8>,
         source_format: Format,
-        target_format: Format,
+        config: Config,
     ) -> Result<(), ConversionError>;
 }
 
