@@ -1,10 +1,11 @@
-use super::FileList;
-use gloo_file::File;
-use web_sys::{DragEvent, Event, HtmlInputElement};
-use yew::html::TargetCast;
-use yew::{html, Component, Context, Html};
-use yewdux::prelude::Dispatch;
+use dioxus::prelude::*;
 
+pub fn ImportForm(cx: Scope) -> Element {
+    cx.render(rsx! {
+        div { class: "content" }
+    })
+}
+/*
 pub enum Msg {
     InputFiles(Vec<File>),
     DragOver(DragEvent),
@@ -131,3 +132,4 @@ impl InputFormComponent {
         let _ = element.dispatch_event(&event);
     }
 }
+*/

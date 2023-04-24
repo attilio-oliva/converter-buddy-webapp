@@ -1,3 +1,11 @@
+use dioxus::prelude::*;
+
+pub fn ExportForm(cx: Scope) -> Element {
+    cx.render(rsx! {
+        div { class: "content" }
+    })
+}
+/*
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::rc::Rc;
@@ -349,3 +357,4 @@ fn download_file_with_uri(uri: String, filename: &str) {
 
     element.remove();
 }
+*/
