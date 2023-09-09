@@ -11,17 +11,8 @@
     font-weight: 100 900;
     src:
         local('Cantarell'),
-        url('fonts/Cantarell-VF.otf') format("opentype"),
-        url('fonts/Cantarell-VF.woff2') format("woff2");
-}
-
-@font-face {
-    font-family: "Inter var";
-    font-weight: 100 900;
-    font-display: swap;
-    font-style: normal;
-    font-named-instance: "Regular";
-    src: url("fonts/Inter.var.woff2") format("woff2");
+        url('fonts/Cantarell-VF.woff2') format("woff2"),
+        url('fonts/Cantarell-VF.otf') format("opentype");
 }
 
 html {
@@ -34,7 +25,7 @@ html {
 
 @supports (font-variation-settings: normal) {
     html {
-        font-family: "Inter var", sans-serif;
+        font-family: "Cantarell", sans-serif;
     }
 
     h1,
@@ -126,9 +117,6 @@ p a {
     padding: calc(1% + 5px);
 }
 
-ul {
-    list-style-type: none;
-}
 
 /* custom buttons */
 
@@ -152,12 +140,7 @@ input:hover {
 /* custom select */
 
 select {
-    /* Reset */
-    /*appearance: none;*/
-    border: 0;
     outline: 0;
-    font: inherit;
-    /* Personalize */
     background-color: var(--font_color);
     color: var(--background_color);
     border: 2px solid var(--background_color);
@@ -165,6 +148,7 @@ select {
     /*box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.2);*/
     cursor: pointer;
     margin: 16px;
+    font-size: large;
 }
 
 /* <option> colors */
@@ -181,6 +165,15 @@ select:focus {
 li {
     list-style: disc outside none;
     display: list-item;
+    text-align: center;
+    color: #A3A3A5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ul {
+    padding-left: 0px;
+    list-style-type: none;
 }
 
 /* Custom Modal
