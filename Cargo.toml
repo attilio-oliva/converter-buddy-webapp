@@ -9,7 +9,16 @@ homepage = "https://github.com/attilio-oliva/converter-buddy-webapp"
 
 [dependencies]
 converter_buddy = "0.2.1"
-dioxus = "0.3.2"
-dioxus-free-icons = { version = "0.6.0", features = ["octicons"] }
-dioxus-web = "0.3.1"
+dioxus = "0.4.0"
+dioxus-web = "0.4.0"
+dioxus-free-icons = { version = "0.7.0", features = ["octicons"] }
+
+gloo-console = "0.3.0"
 strum = "0.24.1"
+web-sys = "0.3.61"
+base64 = "0.13.0"
+
+[profile.release]
+strip = true        # Automatically strip symbols from the binary.
+lto = true          # Instructs the linker to optimize at the link stage
+codegen-units = 1   # Slower compile time, but more optimized output

@@ -1,10 +1,10 @@
-mod import_form;
 mod export_form;
+mod import_form;
 
-pub use import_form::*;
 pub use export_form::*;
+pub use import_form::*;
 
-use converter_buddy::{converter::Converter, format::Format};
+use converter_buddy::{config::Config, converter::Converter, format::Format};
 use dioxus::prelude::*;
 use dioxus_free_icons::{
     icons::go_icons::{GoInfo, GoMarkGithub},
@@ -12,8 +12,12 @@ use dioxus_free_icons::{
 };
 use strum::IntoEnumIterator;
 
+type FileList = Vec<(String, Vec<u8>)>;
 
 pub fn App(cx: Scope) -> Element {
+    use_shared_state_provider(cx, FileList::new);
+    use_shared_state_provider(cx, || Option::<Config>::None);
+
     cx.render(rsx! {
         header {
             Logo {}
@@ -40,13 +44,13 @@ pub fn Menu(cx: Scope) -> Element {
         div { class: "navbar-right",
             a { href: "/", class: "navbar-item",
                 label { r#for: "compatibility-popup", class: "navbar-item open-popup-btn",
-                    Icon { width: 24, height: 24, icon: GoInfo }
+                    Icon { icon: GoInfo, width: 24, height: 24 }
                 }
             }
             a {
                 href: "https://github.com/attilio-oliva/converter-buddy-webapp",
                 class: "navbar-item",
-                Icon { width: 24, height: 24, icon: GoMarkGithub }
+                Icon { icon: GoMarkGithub, width: 24, height: 24 }
             }
         }
     })
@@ -88,8 +92,7 @@ pub fn SupportedFormatsInfo(cx: Scope) -> Element {
     let supported_list = Format::iter()
         .filter_map(|source_format| {
             // if exists a converter with this format as input
-            if let Ok(converter) = Converter::try_from(source_format)
-            {
+            if let Ok(converter) = Converter::try_from(source_format) {
                 return Some((source_format, converter.supported_formats()));
             }
             None
