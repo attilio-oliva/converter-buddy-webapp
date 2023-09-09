@@ -1,30 +1,23 @@
-<!DOCTYPE html><html lang="en"><head>
-        <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0">
-        
-        <style>
-            @font-face {
-                font-family: 'Cantarell';
-                font-display: swap;
-                font-style: normal;
-                font-weight: 100 900;
-                src:
-                    local('Cantarell'),
-                    url('assets/fonts/Cantarell-VF.otf') format("opentype"),
-                    url('assets/fonts/Cantarell-VF.woff2') format("woff2");
-            }
-            @font-face {
-                font-family: "Inter var";
-                font-weight: 100 900;
-                font-display: swap;
-                font-style: normal;
-                font-named-instance: "Regular";
-                src: url("assets/fonts/Inter.var.woff2") format("woff2");
-            }
-          </style>
-    
-<link rel="preload" href="./converter_buddy_webui-be55a58f76b54086_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="./converter_buddy_webui-be55a58f76b54086.js"></head>
-    <body>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Converter Buddy WA</title>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="style.css">
 
-    
-<script type="module">import init from './converter_buddy_webui-be55a58f76b54086.js';init('./converter_buddy_webui-be55a58f76b54086_bg.wasm');</script></body></html>
+</head>
+<body>
+  <div id="main"></div>
+  <script type="module">
+    import init from "/./assets/dioxus/converter-buddy-webapp.js";
+    init("/./assets/dioxus/converter-buddy-webapp_bg.wasm").then(wasm => {
+      if (wasm.__wbindgen_start == undefined) {
+        wasm.main();
+      }
+    });
+  </script>
+  
+</body>
+</html>
