@@ -80,6 +80,7 @@ pub fn guess_source_format(file_name: String) -> Option<Format> {
     ext.and_then(format::from_extension)
 }
 
+#[allow(dead_code)]
 pub fn supported_formats(source_format: &Option<Format>) -> Vec<Format> {
     let Some(guessed_source_format) = source_format else {
         return vec![];
