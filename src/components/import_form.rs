@@ -19,6 +19,7 @@ pub fn ImportForm(cx: Scope) -> Element {
                     } else {
                         rsx!{p { "Selected files:"},
                              ul {
+                                class: "file-list",
                                 for (filename, _data) in files_uploaded.read().iter() {
                                    li{ "{filename}" } 
                                 }
