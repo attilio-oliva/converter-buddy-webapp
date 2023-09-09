@@ -8,7 +8,7 @@ name = "converter-buddy-webapp"
 default_platform = "web"
 
 # `build` & `serve` dist path
-out_dir = "dist"
+out_dir = "docs"
 
 # resource (public) file folder
 asset_dir = "public"
