@@ -1,6 +1,8 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
         <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1.0">
-        
+        <link data-trunk rel="copy-dir" href="assets">
         <style>
             @font-face {
                 font-family: 'Cantarell';
@@ -21,10 +23,16 @@
                 src: url("assets/fonts/Inter.var.woff2") format("woff2");
             }
           </style>
-    
-<link rel="preload" href="./converter_buddy_webui-2f4dd272919577ca_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="./converter_buddy_webui-2f4dd272919577ca.js"></head>
+    </head>
     <body>
 
-    
-<script type="module">import init from './converter_buddy_webui-2f4dd272919577ca.js';init('./converter_buddy_webui-2f4dd272919577ca_bg.wasm');</script></body></html>
+    <script type="module">
+    import init from "/./assets/dioxus/name.js";
+    init("/./assets/dioxus/name_bg.wasm").then(wasm => {
+      if (wasm.__wbindgen_start == undefined) {
+        wasm.main();
+      }
+    });
+    </script>
+    </body>
+</html>
