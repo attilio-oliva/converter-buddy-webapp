@@ -15,32 +15,23 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     steps:
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+        target: wasm32-unknown-unknown
+    - uses: Swatinem/rust-cache@v1
+    - name: Install CLI
+      run: cargo install dioxus-cli --locked
     - uses: actions/checkout@v2
-
-    - uses: actions/cache@v2
-      with:
-        path: |
-          ~/.cargo/bin/
-          ~/.cargo/registry/index/
-          ~/.cargo/registry/cache/
-          ~/.cargo/git/db/
-          target/
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-    - uses: actions-rs/cargo@v1
-      with:
-        command: install
-        args: --force trunk
-    - run: |
-        rustup target add wasm32-unknown-unknown
-    - run: |
-        trunk build --release
-      env:
-        TRUNK_BUILD_PUBLIC_URL: ./
+    - name: Build
+      run: dx build --release
     # Put the build in a branch for testing on pull requests
     - if: github.event_name == 'pull_request'
       uses: peaceiris/actions-gh-pages@v3
