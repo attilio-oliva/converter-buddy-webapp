@@ -32,6 +32,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build
       run: dx build --release
+    - name: Switch to local paths for index.html # Workaround to use local paths for pages
+    - run: sed -i 's/\/.\//.\//g' docs/index.html
     # Put the build in a branch for testing on pull requests
     - if: github.event_name == 'pull_request'
       uses: JamesIves/github-pages-deploy-action@v4.2.3
