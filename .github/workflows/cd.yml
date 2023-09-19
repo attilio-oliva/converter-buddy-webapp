@@ -33,7 +33,7 @@ jobs:
     - name: Build
       run: dx build --release
     - name: Switch to local paths for index.html # Workaround to use local paths for pages
-    - run: sed -i 's/\/.\//.\//g' docs/index.html
+      run: sed -i 's/\/.\//.\//g' docs/index.html
     # Put the build in a branch for testing on pull requests
     - if: github.event_name == 'pull_request'
       uses: JamesIves/github-pages-deploy-action@v4.2.3
@@ -46,7 +46,7 @@ jobs:
     - if: github.event_name == 'push'
       uses: JamesIves/github-pages-deploy-action@v4.2.3
       with:
-       branch: gh-pages-pr-test # The branch the action should deploy to.
+       branch: gh-pages # The branch the action should deploy to.
        folder: docs # The folder the action should deploy.
        target-folder: .
        clean: false
